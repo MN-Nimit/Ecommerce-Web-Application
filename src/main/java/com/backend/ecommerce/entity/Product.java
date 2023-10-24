@@ -18,7 +18,7 @@ import java.util.Set;
 public class Product {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String title;
@@ -29,7 +29,7 @@ public class Product {
 
     private int discountedPrice;
 
-    private int discountPresent;
+    private int discountPercentage;
 
     private int quantity;
 
