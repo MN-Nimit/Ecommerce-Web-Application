@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -26,4 +28,6 @@ public class Rating {
     private Product product;
 
     private double rating;
+
+    private LocalDateTime createdAt;
 }
