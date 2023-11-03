@@ -1,10 +1,12 @@
 package com.backend.ecommerce.controller;
 
 import com.backend.ecommerce.config.JwtProvider;
+import com.backend.ecommerce.entity.Cart;
 import com.backend.ecommerce.entity.User;
 import com.backend.ecommerce.exception.UserException;
 import com.backend.ecommerce.request.LoginRequest;
 import com.backend.ecommerce.response.AuthResponse;
+import com.backend.ecommerce.service.CartService;
 import com.backend.ecommerce.service.UserService;
 import com.backend.ecommerce.service.impl.CustomUserDetailService;
 import org.springframework.http.HttpStatus;
@@ -28,12 +30,14 @@ public class AuthController {
     final private JwtProvider jwtProvider;
     final private PasswordEncoder passwordEncoder;
     final private CustomUserDetailService customUserDetailService;
+    final private CartService cartService;
 
-    public AuthController(UserService userService, JwtProvider jwtProvider, PasswordEncoder passwordEncoder, CustomUserDetailService customUserDetailService) {
+    public AuthController(UserService userService, JwtProvider jwtProvider, PasswordEncoder passwordEncoder, CustomUserDetailService customUserDetailService, CartService cartService) {
         this.userService = userService;
         this.jwtProvider = jwtProvider;
         this.passwordEncoder = passwordEncoder;
         this.customUserDetailService = customUserDetailService;
+        this.cartService = cartService;
     }
 
 
@@ -58,6 +62,7 @@ public class AuthController {
         createdUser.setLastName(lastName);
 
         User savedUser = userService.saveUser(createdUser);
+        Cart cart = cartService.createCart(savedUser);
 
         Authentication authentication = new UsernamePasswordAuthenticationToken(savedUser.getEmail(), savedUser.getPassword());
         SecurityContextHolder.getContext().setAuthentication(authentication);
